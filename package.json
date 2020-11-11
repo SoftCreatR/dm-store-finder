@@ -1,0 +1,35 @@
+{
+  "name": "dm-store-finder",
+  "version": "1.0.0",
+  "description": "Get a DM (dm-drogerie markt GmbH + Co. KG) Store's data by just selecting it (or let the browser select the nearest store)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp",
+    "dev": "gulp dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftCreatR/dm-store-finder.git"
+  },
+  "author": "Sascha Greuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoftCreatR/dm-store-finder/issues"
+  },
+  "homepage": "https://github.com/SoftCreatR/dm-store-finder#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "browser-sync": "^2.26.13",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-inline-source": "^4.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-uglify-es": "^2.0.0"
+  }
+}

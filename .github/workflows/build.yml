@@ -1,0 +1,28 @@
+---
+name: BuildDocs
+
+on:
+  push:
+    paths-ignore:
+      - '*.{md, yml, json, php}'
+  workflow_dispatch:
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Gulp
+        uses: elstudio/actions-js-build/build@v2
+
+      - name: Commit and push on changes
+        run: |-
+          git add .
+          git diff
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git commit -m "Updated Docs" -a || echo "No changes to commit"
+          git push

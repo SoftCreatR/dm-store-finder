@@ -1,0 +1,166 @@
+// Global variables
+$border-radius: var(--border-radius);
+$color-black: var(--color-black);
+$color-input-border-hover: var(--color-input-border-hover);
+$color-input-border: var(--color-input-border);
+$color-text-primary: var(--color-text-primary);
+$color-white: var(--color-white);
+$main-font-family: var(--main-font-family);
+
+// General
+:root {
+  --border-radius: 3px;
+  --color-black: #000;
+  --color-input-border-hover: #0977bd;
+  --color-input-border: #e1e4e8;
+  --color-text-primary: #24292e;
+  --color-white: #fff;
+  --main-font-family: -apple-system, BlinkMacSystemFont, Arial, Helvetica, sans-serif, Segoe UI, Apple Color Emoji, Segoe UI Emoji;
+}
+
+.control,
+select {
+  position: relative
+}
+
+[hidden] {
+  display: none
+}
+
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%
+}
+
+b,
+strong,
+th {
+  font-weight: 600
+}
+
+img {
+  border-style: none
+}
+
+body {
+  background-color: $color-white;
+  color: $color-text-primary;
+  font-family: $main-font-family;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0
+}
+
+.container {
+  padding: 25px
+}
+
+form {
+  max-width: 500px
+}
+
+.control {
+  margin-bottom: 25px
+}
+
+select {
+  appearance: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAOBAMAAADkjZCYAAAAG1BMVEUAAADIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjyiGhTAAAACHRSTlMAEM+fMO+/rxRwsf0AAAA4SURBVAjXY4ACRiUBICnUkQBkanQ0MzAwdXR0GDB4AMlABiQAFmlkYAbLMlR0NIN1GYBMUIYpAQAd+Qz6rivD4AAAAABJRU5ErkJggg==') right 10px center no-repeat;
+  background-clip: padding-box;
+  background-size: 10px 14px;
+  border: 1px $color-input-border solid;
+  border-radius: $border-radius;
+  display: inline-block;
+  font-size: 100%;
+  margin: 0;
+  padding: 10px;
+  text-transform: none;
+  transition: all .5s ease-in-out;
+  width: 104.22%;
+  
+  &:active,
+  &:focus,
+  &:hover {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAOBAMAAADkjZCYAAAAG1BMVEUAAAAJd70Jd70Jd70Jd70Jd70Jd70Jd70Jd70FU/F+AAAACHRSTlMAEM+fMO+/rxRwsf0AAAA4SURBVAjXY4ACRiUBICnUkQBkanQ0MzAwdXR0GDB4AMlABiQAFmlkYAbLMlR0NIN1GYBMUIYpAQAd+Qz6rivD4AAAAABJRU5ErkJggg==');
+    border-color: $color-input-border-hover;
+    outline: 0
+  }
+}
+
+#logo {
+  display: block;
+  height: 60px;
+  margin-bottom: 20px;
+  width: 169px
+}
+
+table {
+  border-collapse: collapse
+}
+
+table,
+td,
+th {
+  border: 1px $color-input-border solid;
+  border-radius: $border-radius
+}
+
+td,
+th {
+  text-align: left;
+  padding: 10px
+}
+
+textarea {
+  overflow: auto;
+}
+
+a {
+  background-color: transparent;
+  color: #7ebc6f;
+  
+  &:hover {
+      color: darken(#7ebc6f, 15%);
+  }
+}
+
+.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+
+.github-corner > svg {
+    border: 0;
+    color: $color-white;
+    fill: #151513;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+@keyframes octocat-wave {
+    0%,
+    100% {
+        transform: rotate(0)
+    }
+
+    20%,
+    60% {
+        transform: rotate(-25deg)
+    }
+
+    40%,
+    80% {
+        transform: rotate(10deg)
+    }
+}
+
+@media (max-width:500px) {
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out;
+        
+        &:hover {
+            animation: none
+        }
+    }
+}
