@@ -4,6 +4,8 @@ $color-black: var(--color-black);
 $color-input-border-hover: var(--color-input-border-hover);
 $color-input-border: var(--color-input-border);
 $color-text-primary: var(--color-text-primary);
+$color-green: var(--color-green);
+$color-red: var(--color-red);
 $color-white: var(--color-white);
 $main-font-family: var(--main-font-family);
 
@@ -14,32 +16,33 @@ $main-font-family: var(--main-font-family);
   --color-input-border-hover: #0977bd;
   --color-input-border: #e1e4e8;
   --color-text-primary: #24292e;
+  --color-green: #178600;
+  --color-red: #f7523f;
   --color-white: #fff;
   --main-font-family: -apple-system, BlinkMacSystemFont, Arial, Helvetica, sans-serif, Segoe UI, Apple Color Emoji, Segoe UI Emoji;
 }
 
 .control,
 select {
-  position: relative
+  position: relative;
 }
 
 [hidden] {
-  display: none
+  display: none;
 }
 
 html {
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%
+  text-size-adjust: 100%;
 }
 
 b,
 strong,
 th {
-  font-weight: 600
+  font-weight: 600;
 }
 
 img {
-  border-style: none
+  border-style: none;
 }
 
 body {
@@ -49,19 +52,19 @@ body {
   font-size: 14px;
   font-weight: 300;
   line-height: 1.5;
-  margin: 0
+  margin: 0;
 }
 
 .container {
-  padding: 25px
+  padding: 25px;
 }
 
 form {
-  max-width: 500px
+  max-width: 500px;
 }
 
 .control {
-  margin-bottom: 25px
+  margin-bottom: 25px;
 }
 
 select {
@@ -76,7 +79,7 @@ select {
   margin: 0;
   padding: 10px;
   text-transform: none;
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   width: 104.22%;
   
   &:active,
@@ -84,32 +87,32 @@ select {
   &:hover {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAOBAMAAADkjZCYAAAAG1BMVEUAAAAJd70Jd70Jd70Jd70Jd70Jd70Jd70Jd70FU/F+AAAACHRSTlMAEM+fMO+/rxRwsf0AAAA4SURBVAjXY4ACRiUBICnUkQBkanQ0MzAwdXR0GDB4AMlABiQAFmlkYAbLMlR0NIN1GYBMUIYpAQAd+Qz6rivD4AAAAABJRU5ErkJggg==');
     border-color: $color-input-border-hover;
-    outline: 0
+    outline: 0;
   }
 }
 
-#logo {
+.logo {
   display: block;
   height: 60px;
   margin-bottom: 20px;
-  width: 169px
+  width: 169px;
 }
 
 table {
-  border-collapse: collapse
+  border-collapse: collapse;
 }
 
 table,
 td,
 th {
   border: 1px $color-input-border solid;
-  border-radius: $border-radius
+  border-radius: $border-radius;
 }
 
 td,
 th {
+  padding: 10px;
   text-align: left;
-  padding: 10px
 }
 
 textarea {
@@ -121,46 +124,54 @@ a {
   color: #7ebc6f;
   
   &:hover {
-      color: darken(#7ebc6f, 15%);
+    color: darken(#7ebc6f, 15%);
   }
 }
 
+.color-green {
+  color: $color-green;
+}
+
+.color-red {
+  color: $color-red;
+}
+
 .github-corner:hover .octo-arm {
-    animation: octocat-wave 560ms ease-in-out
+  animation: octocat-wave 560ms ease-in-out;
 }
 
 .github-corner > svg {
-    border: 0;
-    color: $color-white;
-    fill: #151513;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-@keyframes octocat-wave {
-    0%,
-    100% {
-        transform: rotate(0)
-    }
-
-    20%,
-    60% {
-        transform: rotate(-25deg)
-    }
-
-    40%,
-    80% {
-        transform: rotate(10deg)
-    }
+  border: 0;
+  color: $color-white;
+  fill: #151513;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 @media (max-width:500px) {
-    .github-corner .octo-arm {
-        animation: octocat-wave 560ms ease-in-out;
-        
-        &:hover {
-            animation: none
-        }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+    
+    &:hover {
+      animation: none;
     }
+  }
+}
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
 }

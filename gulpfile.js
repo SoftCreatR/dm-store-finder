@@ -1,10 +1,12 @@
+const { src, dest, watch, series, parallel } = require("gulp");
 const babel = require('gulp-babel');
 const browserSync = require('browser-sync').create();
 const del = require("del");
-const { src, dest, watch, series, parallel } = require("gulp");
+const eslint = require('gulp-eslint7');
 const inlinesource = require("gulp-inline-source");
 const pipeline = require("readable-stream").pipeline;
 const sass = require("gulp-sass");
+const stylelint = require('gulp-stylelint');
 const uglify = require("gulp-uglify-es").default;
 
 // File paths
@@ -24,6 +26,11 @@ const cleanTmp = () => {
 // Build CSS from source
 const buildCSS = () => {
   return src(paths.scssPath)
+    .pipe(stylelint({
+      reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }))
     .pipe(sass({
         outputStyle: "compressed"
     }))
@@ -33,6 +40,7 @@ const buildCSS = () => {
 // Build JS from source
 const buildJS = () => {
   return src(paths.jsPath)
+    .pipe(eslint())
     .pipe(babel({
         presets: ['@babel/preset-env']
     }))

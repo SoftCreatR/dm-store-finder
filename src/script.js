@@ -1,7 +1,7 @@
 "use strict";
 
-let locations;
-let openingHours;
+let locations,
+    openingHours;
 
 let dropdown = document.getElementById("stores");
 dropdown.length = 0;
@@ -17,8 +17,8 @@ dropdown.addEventListener("change", e => {
   const that = e.target;
 
   if (that.value.length) {
-    document.getElementById("storeNumber").textContent = `${document.getElementById("countries").value}-${that.value}`;
-    document.getElementById("storeLocation").href = `https://www.openstreetmap.org/?mlat=${locations[that.value]["lat"]}&mlon=${locations[that.value]["lon"]}&zoom=17`;
+    document.getElementById("store-number").textContent = `${document.getElementById("countries").value}-${that.value}`;
+    document.getElementById("store-location").href = `https://www.openstreetmap.org/?mlat=${locations[that.value]["lat"]}&mlon=${locations[that.value]["lon"]}&zoom=17`;
     document.getElementById("info").removeAttribute('hidden');
 
     drawOpeningHoursTable(that.value);
@@ -51,12 +51,12 @@ const closestLocation = (targetLocation, locationData) => {
 
 // opening hours related stuff
 const drawOpeningHoursTable = storeNumber => {
-  const table = document.getElementById("openingHours"),
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const table = document.getElementById("opening-hours"),
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   let tr,
-    th,
-    td,
-    data;
+      th,
+      td,
+      data;
 
   table.innerHTML = null;
 
@@ -80,14 +80,13 @@ const drawOpeningHoursTable = storeNumber => {
 };
 
 const storeStatus = storeNumber => {
-  const status = document.getElementById("storeStatus");
-  const d = new Date();
-  const n = d.getDay();
-  const now = `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes()}`;
-  console.log(now);
-  const day = openingHours[storeNumber].filter(e => {
-    return e["weekDay"] === n;
-  });
+  const status = document.getElementById("store-status"),
+        d = new Date(),
+        n = d.getDay(),
+        now = `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes()}`,
+        day = openingHours[storeNumber].filter(e => {
+            return e["weekDay"] === n;
+        });
   
   if (undefined !== day[0]) {
     if (now >= day[0]["timeRanges"][0]["opening"] && now < day[0]["timeRanges"][0]["closing"]) {
@@ -105,8 +104,8 @@ const storeStatus = storeNumber => {
 
 // perform magic after selecting a country
 document.getElementById("countries").addEventListener("change", e => {
-  const that = e.target;
-  const url = `data/dm-stores-${that.value}.json?cb=${new Date().toISOString().slice(0,10)}`;
+  const that = e.target,
+        url = `data/dm-stores-${that.value}.json?cb=${new Date().toISOString().slice(0,10)}`;
 
   // reset
   document.getElementById("info").setAttribute('hidden', 1);
@@ -135,16 +134,14 @@ document.getElementById("countries").addEventListener("change", e => {
       // examine the text in the response
       response.json().then(data => {
         let option,
-          address,
-          storeNumber;
+            address,
+            storeNumber;
 
         openingHours = [];
         locations = [];
 
         // order stores by zip
-        data = data.sort((a, b) => {
-          return a.address["zip"].replace(" ", "") - b.address["zip"].replace(" ", "");
-        });
+        data.sort((a, b) => a.address["zip"].replaceAll(" ", "") - b.address["zip"].replaceAll(" ", ""));
 
         // build dropdown options, based on the JSON data
         for (let i = 0; i < data.length; i += 1) {
@@ -183,7 +180,5 @@ document.getElementById("countries").addEventListener("change", e => {
         }
       });
     })
-    .catch(err => {
-      console.error("Fetch Error -", err);
-    });
+    .catch(err => console.error("Fetch Error -", err));
 });
