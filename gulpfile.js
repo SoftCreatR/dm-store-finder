@@ -1,87 +1,96 @@
-const { src, dest, watch, series, parallel } = require("gulp");
+'use strict';
+
+const {src, dest, watch, series, parallel} = require('gulp');
 const babel = require('gulp-babel');
 const browserSync = require('browser-sync').create();
-const del = require("del");
+const del = require('del');
 const eslint = require('gulp-eslint7');
-const inlinesource = require("gulp-inline-source");
-const pipeline = require("readable-stream").pipeline;
-const sass = require("gulp-sass");
+const inlinesource = require('gulp-inline-source');
+const prettier = require('gulp-prettier');
+const sass = require('gulp-sass');
 const stylelint = require('gulp-stylelint');
-const uglify = require("gulp-uglify-es").default;
+const uglify = require('gulp-uglify-es');
 
 // File paths
 const paths = {
-  tmpPath: "./tmp",
-  distPath: "./docs",
-  scssPath: "./src/style.scss",
-  jsPath: "./src/script.js",
-  htmlPath: "./src/index.html"
+  dist: './docs',
+  src: './src',
+  tmp: './tmp'
+}
+
+const files = {
+  html: paths.src + '/index.html',
+  js: paths.src + '/script.js',
+  scss: paths.src + '/style.scss'
 }
 
 // Clean temp directory before and after build
 const cleanTmp = () => {
-  return del(paths.tmpPath);
+  return del(paths.tmp);
 };
 
 // Build CSS from source
 const buildCSS = () => {
-  return src(paths.scssPath)
+  return src(files.scss)
     .pipe(stylelint({
       reporters: [
-        {formatter: 'string', console: true}
+        {
+          console: true,
+          formatter: 'string'
+        }
       ]
     }))
     .pipe(sass({
-        outputStyle: "compressed"
+        outputStyle: 'compressed'
     }))
-    .pipe(dest(paths.tmpPath))
+    .pipe(dest(paths.tmp))
 };
 
 // Build JS from source
 const buildJS = () => {
-  return src(paths.jsPath)
+  return src(files.js)
     .pipe(eslint())
     .pipe(babel({
         presets: ['@babel/preset-env']
     }))
-    .pipe(uglify({
+    .pipe(uglify.default({
         compress: {
             arguments: true,
             booleans_as_integers: true
         }
     }))
-    .pipe(dest(paths.tmpPath))
+    .pipe(dest(paths.tmp))
 };
 
 // Build HTML from source and inject assets
 const buildHTML = () => {
-  return src(paths.htmlPath)
+  return src(files.html)
     .pipe(inlinesource())
-    .pipe(dest(paths.distPath));
+    .pipe(dest(paths.dist));
 };
 
 // Dev functions
 const startWatch = () => {
-  const _series = series(
+  const watchSeries = series(
     parallel(buildCSS, buildJS),
     buildHTML,
     cleanTmp
   );
 
-  watch(paths.scssPath, _series),
-  watch(paths.jsPath, _series),
-  watch(paths.htmlPath, _series);
+  watch(files.scss, watchSeries);
+  watch(files.js, watchSeries);
+  watch(files.html, watchSeries);
 };
 
 const serve = () => {  
   browserSync.init({
     open: true,
     server: {
-      baseDir: paths.distPath
+      baseDir: paths.dist
     }
   });
 
-  watch(paths.distPath + "/index.html")
+  watch(paths.dist + '/index.html')
     .on('change', browserSync.reload);
 };
 

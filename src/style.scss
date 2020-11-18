@@ -31,10 +31,6 @@ select {
   display: none;
 }
 
-html {
-  text-size-adjust: 100%;
-}
-
 b,
 strong,
 th {
@@ -81,7 +77,7 @@ select {
   text-transform: none;
   transition: all 0.5s ease-in-out;
   width: 104.22%;
-  
+
   &:active,
   &:focus,
   &:hover {
@@ -122,17 +118,17 @@ textarea {
 a {
   background-color: transparent;
   color: #7ebc6f;
-  
+
   &:hover {
     color: darken(#7ebc6f, 15%);
   }
 }
 
-.color-green {
+.color--green {
   color: $color-green;
 }
 
-.color-red {
+.color--red {
   color: $color-red;
 }
 
@@ -149,10 +145,10 @@ a {
   top: 0;
 }
 
-@media (max-width:500px) {
+@media (max-width: 500px) {
   .github-corner .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
-    
+
     &:hover {
       animation: none;
     }
