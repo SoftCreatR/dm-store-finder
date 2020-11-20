@@ -1,7 +1,6 @@
 'use strict';
 
 const {src, dest, watch, series, parallel} = require('gulp');
-const babel = require('gulp-babel');
 const browserSync = require('browser-sync').create();
 const del = require('del');
 const eslint = require('gulp-eslint7');
@@ -49,9 +48,6 @@ const buildCSS = () => {
 const buildJS = () => {
   return src(files.js)
     .pipe(eslint())
-    .pipe(babel({
-        presets: ['@babel/preset-env']
-    }))
     .pipe(uglify.default({
         compress: {
             arguments: true,

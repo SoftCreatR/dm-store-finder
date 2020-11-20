@@ -6,7 +6,7 @@ let dropdown = document.getElementById('stores');
 dropdown.length = 0;
 
 let defaultOption = document.createElement('option');
-defaultOption.text = '- Select Store ↴';
+defaultOption.innerHTML = '- Select Store &#x21B4;';
 defaultOption.value = '';
 
 dropdown.add(defaultOption);
@@ -49,7 +49,7 @@ const closestLocation = (targetLocation, locationData) => {
 };
 
 // opening hours related stuff
-const drawOpeningHoursTable = storeNumber => {
+const drawOpeningHoursTable = async storeNumber => {
   const table = document.getElementById('opening-hours'),
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   let tr, th, td, data;
@@ -75,7 +75,7 @@ const drawOpeningHoursTable = storeNumber => {
   }
 };
 
-const drawStoreStatus = storeNumber => {
+const drawStoreStatus = async storeNumber => {
   const status = document.getElementById('store-status'),
     d = new Date(),
     n = d.getDay(),
@@ -98,10 +98,21 @@ const drawStoreStatus = storeNumber => {
   }
 };
 
+const fetchData = async countryCode => {
+  const url = `data/dm-stores-${countryCode}.json?cb=${new Date().toISOString().slice(0, 10)}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+
+  return await response.json();
+}
+
 // perform magic after selecting a country
 document.getElementById('countries').addEventListener('change', e => {
-  const that = e.target,
-    url = `data/dm-stores-${that.value}.json?cb=${new Date().toISOString().slice(0, 10)}`;
+  const that = e.target;
 
   // reset
   document.getElementById('info').setAttribute('hidden', '1');
@@ -119,61 +130,47 @@ document.getElementById('countries').addEventListener('change', e => {
     dropdown.removeAttribute('hidden');
   }
 
-  fetch(url)
-    .then(response => {
-      if (response.status !== 200) {
-        console.warn(`Looks like there was a problem. Status Code:${response.status}`);
+  // parse data for the selected country
+  fetchData(that.value)
+    .then(data => {
+      let option, address, storeNumber;
 
-        return;
+      openingHours = [];
+      locations = [];
+
+      // order stores by zip
+      data.sort((a, b) => a.address['zip'].replaceAll(' ', '') - b.address['zip'].replaceAll(' ', ''));
+
+      // build dropdown options, based on the JSON data
+      for (let i = 0; i < data.length; i += 1) {
+        address = data[i].address;
+        storeNumber = parseInt(data[i]['storeNumber'], 10);
+
+        option = document.createElement('option');
+        option.text = `${address['zip']} ${address['city']} - ${address['street']}`;
+        option.value = storeNumber;
+
+        dropdown.add(option);
+
+        openingHours[storeNumber] = data[i]['openingHours'];
+        locations[storeNumber] = data[i]['location'];
       }
 
-      // examine the text in the response
-      response.json().then(data => {
-        let option, address, storeNumber;
+      // select nearest store next to visitors location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const targetLocation = pos;
 
-        openingHours = [];
-        locations = [];
+          if (undefined !== targetLocation) {
+            const selected = parseInt(closestLocation(targetLocation, data)['storeNumber'], 10);
 
-        // order stores by zip
-        data.sort((a, b) => a.address['zip'].replaceAll(' ', '') - b.address['zip'].replaceAll(' ', ''));
+            dropdown.querySelector(`option[value="${selected}"]`).selected = true;
 
-        // build dropdown options, based on the JSON data
-        for (let i = 0; i < data.length; i += 1) {
-          address = data[i].address;
-          storeNumber = parseInt(data[i]['storeNumber'], 10);
-
-          option = document.createElement('option');
-          option.text = `${address['zip']} ${address['city']} - ${address['street']}`;
-          option.value = storeNumber;
-
-          dropdown.add(option);
-
-          openingHours[storeNumber] = data[i]['openingHours'];
-          locations[storeNumber] = data[i]['location'];
-        }
-
-        // select nearest store next to visitors location
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(pos => {
-              const targetLocation = pos;
-
-              if (undefined !== targetLocation) {
-                const selected = parseInt(closestLocation(targetLocation, data)['storeNumber'], 10);
-
-                dropdown.querySelector(`option[value="${selected}"]`).selected = true;
-
-                // trigger change
-                dropdown.dispatchEvent(new CustomEvent('change'));
-              }
-            },
-            null,
-            {
-              enableHighAccuracy: true,
-              maximumAge: 0
-            }
-          );
-        }
-      });
+            // trigger change
+            dropdown.dispatchEvent(new CustomEvent('change'));
+          }
+        });
+      }
     })
     .catch(err => console.error('Fetch Error -', err));
 });
