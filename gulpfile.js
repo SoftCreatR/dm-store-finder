@@ -6,7 +6,6 @@ const browserSync = require('browser-sync').create();
 const del = require('del');
 const eslint = require('gulp-eslint7');
 const inlinesource = require('gulp-inline-source');
-const prettier = require('gulp-prettier');
 const sass = require('gulp-sass');
 const stylelint = require('gulp-stylelint');
 const uglify = require('gulp-uglify-es');
