@@ -1,6 +1,6 @@
 'use strict';
 
-let locations, openingHours;
+let locations, openingHours, geoLocation;
 
 let dropdown = document.getElementById('stores');
 dropdown.length = 0;
@@ -16,8 +16,20 @@ dropdown.addEventListener('change', e => {
   const that = e.target;
 
   if (that.value.length) {
+    const s = str => {
+        return str.toString().substring(0, 9);
+    }
+    
+    let mapsUrl = `https://maps.openrouteservice.org/directions?n3=13&c=0&a=`;
+
+    if (!typeof geoLocation !== 'undefined') {
+        mapsUrl += `${s(geoLocation.coords.latitude)},${s(geoLocation.coords.longitude)},${s(locations[that.value]['lat'])},${s(locations[that.value]['lon'])}`;
+    } else {
+        mapsUrl += `null,null,${s(locations[that.value]['lat'])},${s(locations[that.value]['lon'])}`;
+    }
+
     document.getElementById('store-number').textContent = `${document.getElementById('countries').value}-${that.value}`;
-    document.getElementById('store-location').href = `https://www.openstreetmap.org/?mlat=${locations[that.value]['lat']}&mlon=${locations[that.value]['lon']}&zoom=17`;
+    document.getElementById('store-location').href = mapsUrl;
     document.getElementById('info').removeAttribute('hidden');
 
     drawOpeningHoursTable(that.value);
@@ -160,6 +172,7 @@ document.getElementById('countries').addEventListener('change', e => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           const targetLocation = pos;
+          geoLocation = pos;
 
           if (undefined !== targetLocation) {
             const selected = parseInt(closestLocation(targetLocation, data)['storeNumber'], 10);
