@@ -5,9 +5,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "npx gulp",
-    "dev": "npx gulp dev",
-    "lint": "npx stylelint src/style.scss && npx eslint src/script.js"
+    "build": "gulp",
+    "dev": "gulp dev",
+    "lint": "stylelint src/style.scss && eslint src/script.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "browser-sync": "^2.26.13",
     "del": "^6.0.0",
-    "eslint": "^7.14.0",
+    "eslint": "^7.15.0",
     "gulp": "^4.0.2",
     "gulp-eslint7": "^0.3.0",
     "gulp-inline-source": "^4.0.0",
