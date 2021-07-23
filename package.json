@@ -20,17 +20,17 @@
   },
   "homepage": "https://github.com/SoftCreatR/dm-store-finder#readme",
   "devDependencies": {
-    "browser-sync": "^2.26.14",
+    "browser-sync": "^2.27.4",
     "del": "^6.0.0",
-    "eslint": "^7.18.0",
+    "eslint": "^7.31.0",
     "gulp": "^4.0.2",
-    "gulp-eslint7": "^0.3.0",
+    "gulp-eslint7": "^0.3.1",
     "gulp-inline-source": "^4.0.0",
-    "gulp-sass": "^4.1.0",
+    "gulp-sass": "^5.0.0",
     "gulp-stylelint": "^13.0.0",
     "gulp-uglify-es": "^2.0.0",
-    "stylelint": "^13.9.0",
-    "stylelint-config-sass-guidelines": "^7.1.0",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint": "^13.13.1",
+    "stylelint-config-sass-guidelines": "^8.0.0",
+    "stylelint-config-standard": "^22.0.0"
   }
 }
