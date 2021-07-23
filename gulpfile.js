@@ -5,7 +5,7 @@ const browserSync = require('browser-sync').create();
 const del = require('del');
 const eslint = require('gulp-eslint7');
 const inlinesource = require('gulp-inline-source');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const stylelint = require('gulp-stylelint');
 const uglify = require('gulp-uglify-es');
 
@@ -77,7 +77,7 @@ const startWatch = () => {
   watch(files.html, watchSeries);
 };
 
-const serve = () => {  
+const serve = () => {
   browserSync.init({
     open: true,
     server: {
