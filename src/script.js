@@ -20,7 +20,7 @@ dropdown.addEventListener('change', e => {
         return str.toString().substring(0, 9);
     }
     
-    let mapsUrl = `https://maps.openrouteservice.org/directions?n3=13&c=0&a=`;
+    let mapsUrl = `https://classic-maps.openrouteservice.org/directions?n3=13&c=0&a=`;
 
     if (!typeof geoLocation !== 'undefined') {
         mapsUrl += `${s(geoLocation.coords.latitude)},${s(geoLocation.coords.longitude)},${s(locations[that.value]['lat'])},${s(locations[that.value]['lon'])}`;
